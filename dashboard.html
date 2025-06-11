@@ -17,6 +17,28 @@
             min-height: 100vh;
             color: #ffffff;
             transition: all 0.3s ease;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .moving-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            opacity: 0.1;
+            z-index: 0;
+            background-image: 
+                linear-gradient(rgba(147, 51, 234, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(147, 51, 234, 0.3) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(-50px, -50px); }
+            100% { transform: translate(0px, 0px); }
         }
 
         @keyframes slideInFromTop {
@@ -394,6 +416,90 @@
                 padding: 15px 20px;
                 border-radius: 10px;
                 font-size: 1.1rem;
+                word-break: break-word;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .card {
+                padding: 20px 15px;
+            }
+            
+            .card-title {
+                font-size: 1rem;
+                word-break: break-word;
+            }
+            
+            .card-value {
+                font-size: 2rem;
+            }
+            
+            .tool-card {
+                padding: 15px;
+            }
+            
+            .tool-name {
+                font-size: 1rem;
+                word-break: break-word;
+            }
+            
+            .search-box {
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+            
+            .user-section {
+                gap: 10px;
+            }
+            
+            .user-section span {
+                display: none;
+            }
+            
+            .header {
+                padding: 15px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-value {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+                word-break: break-word;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .popup {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .activity-item {
+                padding: 10px 0;
+                font-size: 0.9rem;
+                word-break: break-word;
             }
         }
 
@@ -496,6 +602,8 @@
     </style>
 </head>
 <body>
+    <div class="moving-grid"></div>
+    
     <header class="header">
         <div class="logo">CyberOSINT</div>
         <div class="hamburger" onclick="toggleMenu()">
