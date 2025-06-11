@@ -17,6 +17,39 @@
             background: linear-gradient(135deg, #0a0a0a 0%, #1a0b2e 50%, #16213e 100%);
             min-height: 100vh;
             color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(147, 51, 234, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.6); }
         }
 
         .header {
@@ -30,6 +63,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            animation: slideInFromTop 0.6s ease-out;
         }
 
         .logo {
@@ -41,9 +75,39 @@
             background-clip: text;
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #c084fc;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
         .nav-menu {
             display: flex;
             gap: 30px;
+            transition: all 0.3s ease;
         }
 
         .nav-item {
@@ -57,6 +121,7 @@
         .nav-item:hover, .nav-item.active {
             background: rgba(147, 51, 234, 0.2);
             color: #c084fc;
+            transform: translateY(-2px);
         }
 
         .user-section {
@@ -74,12 +139,62 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            animation: glow 1s infinite;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            margin-right: 5px;
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .main-content {
             padding: 30px;
             max-width: 1400px;
             margin: 0 auto;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .search-section {
+            margin-bottom: 30px;
+            animation: slideInFromLeft 0.6s ease-out 0.2s both;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            padding: 15px 20px;
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 15px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #9333ea;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+            animation: glow 2s infinite;
+        }
+
+        .search-box::placeholder {
+            color: #a1a1aa;
         }
 
         .dashboard-grid {
@@ -96,11 +211,13 @@
             border-radius: 15px;
             padding: 25px;
             transition: all 0.3s ease;
+            animation: slideInFromLeft 0.6s ease-out;
         }
 
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(147, 51, 234, 0.2);
+            animation: glow 2s infinite;
         }
 
         .card-header {
@@ -119,6 +236,11 @@
             justify-content: center;
             margin-right: 15px;
             font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: rotate(5deg) scale(1.1);
         }
 
         .card-title {
@@ -148,6 +270,7 @@
             font-weight: bold;
             margin-bottom: 25px;
             color: #e4e4e7;
+            animation: slideInFromLeft 0.6s ease-out 0.4s both;
         }
 
         .tools-grid {
@@ -164,6 +287,7 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease-out;
         }
 
         .tool-card:hover {
@@ -175,6 +299,11 @@
         .tool-icon {
             font-size: 3rem;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover .tool-icon {
+            transform: scale(1.2) rotate(10deg);
         }
 
         .tool-name {
@@ -189,21 +318,6 @@
             font-size: 0.9rem;
         }
 
-        .status-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #10b981;
-            margin-right: 5px;
-            animation: pulse-green 2s infinite;
-        }
-
-        @keyframes pulse-green {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
         .logout-btn {
             background: rgba(239, 68, 68, 0.2);
             border: 1px solid rgba(239, 68, 68, 0.5);
@@ -216,6 +330,7 @@
 
         .logout-btn:hover {
             background: rgba(239, 68, 68, 0.3);
+            transform: translateY(-2px);
         }
 
         .activity-feed {
@@ -224,6 +339,7 @@
             border-radius: 15px;
             padding: 25px;
             margin-top: 30px;
+            animation: slideInFromLeft 0.6s ease-out 0.6s both;
         }
 
         .activity-item {
@@ -231,6 +347,13 @@
             align-items: center;
             padding: 15px 0;
             border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: rgba(147, 51, 234, 0.05);
+            border-radius: 8px;
+            padding-left: 10px;
         }
 
         .activity-item:last-child {
@@ -242,16 +365,152 @@
             font-size: 0.8rem;
             margin-left: auto;
         }
+
+        /* Mobile Menu Styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 300px;
+                height: 100vh;
+                background: rgba(20, 20, 20, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                transition: right 0.3s ease;
+                border-left: 1px solid rgba(147, 51, 234, 0.3);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-item {
+                margin: 10px 0;
+                padding: 15px 20px;
+                border-radius: 10px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Popup Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .popup {
+            background: rgba(30, 30, 30, 0.95);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: slideInFromTop 0.3s ease-out;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #a1a1aa;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-close:hover {
+            color: #c084fc;
+            transform: scale(1.2);
+        }
+
+        .popup h2 {
+            color: #e4e4e7;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .popup input, .popup textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .popup input:focus, .popup textarea:focus {
+            outline: none;
+            border-color: #9333ea;
+            box-shadow: 0 0 15px rgba(147, 51, 234, 0.3);
+        }
+
+        .popup-btn {
+            background: linear-gradient(45deg, #9333ea, #7c3aed);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4);
+        }
+
+        .referral-stats {
+            background: rgba(147, 51, 234, 0.1);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .referral-count {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #c084fc;
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo">CyberOSINT</div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <nav class="nav-menu">
             <a href="dashboard.html" class="nav-item active">Dashboard</a>
             <a href="#" class="nav-item">Investigations</a>
             <a href="#" class="nav-item">Reports</a>
             <a href="subscription.html" class="nav-item">Subscription</a>
+            <a href="#" class="nav-item" onclick="openRedeemPopup()">Redeem</a>
+            <a href="#" class="nav-item" onclick="openSettingsPopup()">Settings</a>
         </nav>
         <div class="user-section">
             <span class="status-indicator"></span>
@@ -262,6 +521,10 @@
     </header>
 
     <main class="main-content">
+        <div class="search-section">
+            <input type="text" class="search-box" placeholder="🔍 Search databases, investigations, targets..." oninput="searchDatabases(this.value)">
+        </div>
+
         <div class="dashboard-grid">
             <div class="card">
                 <div class="card-header">
@@ -362,20 +625,147 @@
         </div>
     </main>
 
+    <!-- Redeem Popup -->
+    <div id="redeemPopup" class="popup-overlay">
+        <div class="popup">
+            <button class="popup-close" onclick="closePopup('redeemPopup')">&times;</button>
+            <h2>Redeem Subscription Token</h2>
+            <input type="text" id="redeemToken" placeholder="Enter your subscription token">
+            <button class="popup-btn" onclick="redeemToken()">Redeem Token</button>
+        </div>
+    </div>
+
+    <!-- Settings Popup -->
+    <div id="settingsPopup" class="popup-overlay">
+        <div class="popup">
+            <button class="popup-close" onclick="closePopup('settingsPopup')">&times;</button>
+            <h2>Settings</h2>
+            
+            <h3 style="color: #c084fc; margin: 20px 0 10px 0;">Your Referral Link</h3>
+            <input type="text" id="referralLink" value="https://cyberosint.com/ref/JD_8492" readonly>
+            <button class="popup-btn" onclick="copyReferralLink()">Copy Link</button>
+            
+            <div class="referral-stats">
+                <div style="color: #a1a1aa; margin-bottom: 5px;">Total Referrals</div>
+                <div class="referral-count" id="referralCount">12</div>
+                <div style="color: #a1a1aa; font-size: 0.9rem;">People have used your link</div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        function searchDatabases(query) {
+            if (query.length > 2) {
+                console.log('Searching databases for:', query);
+                // Add visual feedback
+                const searchBox = document.querySelector('.search-box');
+                searchBox.style.borderColor = '#9333ea';
+                searchBox.style.boxShadow = '0 0 20px rgba(147, 51, 234, 0.3)';
+                
+                setTimeout(() => {
+                    searchBox.style.borderColor = 'rgba(147, 51, 234, 0.3)';
+                    searchBox.style.boxShadow = 'none';
+                }, 1000);
+            }
+        }
+
+        function openRedeemPopup() {
+            document.getElementById('redeemPopup').style.display = 'flex';
+        }
+
+        function openSettingsPopup() {
+            document.getElementById('settingsPopup').style.display = 'flex';
+            // Simulate updating referral count
+            const count = Math.floor(Math.random() * 20) + 10;
+            document.getElementById('referralCount').textContent = count;
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        function redeemToken() {
+            const token = document.getElementById('redeemToken').value;
+            if (token) {
+                alert('Token redemption successful! Your subscription has been updated.');
+                closePopup('redeemPopup');
+            } else {
+                alert('Please enter a valid token.');
+            }
+        }
+
+        function copyReferralLink() {
+            const referralLink = document.getElementById('referralLink');
+            referralLink.select();
+            document.execCommand('copy');
+            
+            // Visual feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.style.background = '#10b981';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = 'linear-gradient(45deg, #9333ea, #7c3aed)';
+            }, 2000);
+        }
+
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
                 window.location.href = 'index.html';
             }
         }
 
-        // Simulate real-time updates
-        setInterval(function() {
-            const indicators = document.querySelectorAll('.status-indicator');
-            indicators.forEach(indicator => {
-                indicator.style.animation = 'pulse-green 2s infinite';
+        // Close popups when clicking outside
+        document.addEventListener('click', function(e) {
+            const popups = document.querySelectorAll('.popup-overlay');
+            popups.forEach(popup => {
+                if (e.target === popup) {
+                    popup.style.display = 'none';
+                }
             });
-        }, 3000);
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Animate cards on scroll
+        function animateOnScroll() {
+            const cards = document.querySelectorAll('.card, .tool-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            animateOnScroll();
+            
+            // Simulate real-time updates
+            setInterval(function() {
+                const indicators = document.querySelectorAll('.status-indicator');
+                indicators.forEach(indicator => {
+                    indicator.style.animation = 'pulse-green 2s infinite';
+                });
+            }, 3000);
+        });
     </script>
 </body>
 </html>
