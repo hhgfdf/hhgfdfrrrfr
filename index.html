@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberOSINT - Secure Login</title>
+    <script src="https://kit.fontawesome.com/602b64b73f.js" crossorigin="anonymous"></script>
     <style>
         * {
             margin: 0;
@@ -176,6 +177,11 @@
             box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
         }
 
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
         .generate-token-btn {
             width: 100%;
             padding: 10px;
@@ -232,6 +238,26 @@
             margin-top: 20px;
             font-size: 12px;
             color: #e4e4e7;
+        }
+
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .copy-notification.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         @media (max-width: 768px) {
@@ -298,19 +324,27 @@
             <input type="text" id="authToken" placeholder="Enter your auth token">
         </div>
         
-        <button type="button" class="login-btn" onclick="loginWithToken()">Authenticate</button>
+        <button type="button" class="login-btn" id="loginBtn" onclick="loginWithToken()">
+            <i class="fas fa-sign-in-alt"></i> Authenticate
+        </button>
         
-        <button type="button" class="generate-token-btn" onclick="generateToken()">Generate New Token</button>
+        <button type="button" class="generate-token-btn" onclick="generateToken()">
+            <i class="fas fa-key"></i> Generate New Token
+        </button>
         
         <div id="tokenDisplay" class="token-display"></div>
         
         <div class="back-to-home">
-            <a href="homepage.html">← Back to Home</a>
+            <a href="homepage.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
         </div>
         
         <div class="security-notice">
-            🔐 This system uses military-grade encryption. All activities are monitored and logged for security purposes.
+            <i class="fas fa-shield-alt"></i> This system uses military-grade encryption. All activities are monitored and logged for security purposes.
         </div>
+    </div>
+
+    <div id="copyNotification" class="copy-notification">
+        <i class="fas fa-check-circle"></i> Token copied to clipboard!
     </div>
 
     <script>
@@ -326,14 +360,55 @@
             tokenDisplay.style.display = 'block';
             
             localStorage.setItem('authToken', token);
+            
+            // Copy to clipboard
+            copyToClipboard(token);
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopyNotification();
+                });
+            } else {
+                // Fallback for older browsers or non-secure contexts
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    showCopyNotification();
+                } catch (err) {
+                    console.error('Failed to copy token to clipboard');
+                }
+                
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showCopyNotification() {
+            const notification = document.getElementById('copyNotification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
         }
 
         function loginWithToken() {
             const token = document.getElementById('authToken').value;
             const storedToken = localStorage.getItem('authToken');
+            const loginBtn = document.getElementById('loginBtn');
             
             if (token && (token === storedToken || token.startsWith('OSINT_'))) {
-                document.querySelector('.login-btn').textContent = 'Authenticating...';
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<span class="loading-spinner"></span>Authenticating...';
                 
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';

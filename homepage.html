@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberOSINT - Advanced Intelligence Platform</title>
+    <title>CyberOSINT - Professional OSINT Platform</title>
+    <script src="https://kit.fontawesome.com/602b64b73f.js" crossorigin="anonymous"></script>
     <style>
         * {
             margin: 0;
@@ -59,59 +60,33 @@
             100% { opacity: 0.6; }
         }
 
-        @keyframes slideInFromTop {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.6); }
-        }
-
         .header {
             background: rgba(30, 30, 30, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(147, 51, 234, 0.3);
-            padding: 15px 30px;
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            animation: slideInFromTop 0.6s ease-out;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             background: linear-gradient(45deg, #9333ea, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
         }
 
         .nav-menu {
@@ -122,116 +97,171 @@
         .nav-item {
             color: #e4e4e7;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 10px;
             transition: all 0.3s ease;
         }
 
-        .nav-item:hover {
+        .nav-item:hover, .nav-item.active {
             background: rgba(147, 51, 234, 0.2);
             color: #c084fc;
             transform: translateY(-2px);
         }
 
-        .auth-btn {
-            background: linear-gradient(45deg, #9333ea, #7c3aed);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: bold;
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
         }
 
-        .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #c084fc;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
         }
 
-        .hero-section {
-            text-align: center;
-            padding: 100px 30px 80px;
-            max-width: 1200px;
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .main-content {
+            padding: 40px;
+            max-width: 1400px;
             margin: 0 auto;
-            animation: fadeIn 1s ease-out;
         }
 
-        .hero-title {
-            font-size: 4rem;
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
             font-weight: bold;
-            background: linear-gradient(45deg, #9333ea, #c084fc, #7c3aed);
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #9333ea, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 20px;
-            animation: slideInFromTop 0.8s ease-out 0.2s both;
         }
 
-        .hero-subtitle {
-            font-size: 1.3rem;
+        .hero p {
+            font-size: 1.2rem;
             color: #a1a1aa;
             margin-bottom: 40px;
-            animation: slideInFromTop 0.8s ease-out 0.4s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .cta-primary, .cta-secondary {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-primary {
+            background: linear-gradient(45deg, #9333ea, #7c3aed);
+            color: white;
+        }
+
+        .cta-secondary {
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            color: #c084fc;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
+        }
+
+        .cta-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.2);
+        }
+
+        .stats-section {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
-            margin: 60px 0;
-            animation: slideInFromLeft 0.8s ease-out 0.6s both;
         }
 
         .stat-card {
-            background: rgba(30, 30, 30, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            border-radius: 15px;
-            padding: 30px 20px;
             text-align: center;
+            padding: 25px;
+            border-radius: 15px;
             transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease-out;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(147, 51, 234, 0.2);
-            animation: glow 2s infinite;
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #c084fc;
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: bold;
-            color: #c084fc;
             margin-bottom: 10px;
+            color: #e4e4e7;
         }
 
         .stat-label {
-            color: #e4e4e7;
             font-size: 1rem;
+            color: #a1a1aa;
         }
 
         .features-section {
-            padding: 80px 30px;
-            max-width: 1200px;
-            margin: 0 auto;
+            margin-bottom: 60px;
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
+            margin-bottom: 40px;
             text-align: center;
-            margin-bottom: 20px;
-            color: #e4e4e7;
-            animation: slideInFromTop 0.8s ease-out;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: #a1a1aa;
-            margin-bottom: 60px;
-            font-size: 1.1rem;
-            animation: slideInFromTop 0.8s ease-out 0.2s both;
+            background: linear-gradient(45deg, #9333ea, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .features-grid {
@@ -242,181 +272,404 @@
 
         .feature-card {
             background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(147, 51, 234, 0.3);
             border-radius: 15px;
-            padding: 30px;
+            padding: 25px;
             transition: all 0.3s ease;
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 0.6s ease-out;
         }
 
         .feature-card:hover {
-            transform: scale(1.05);
-            border-color: #9333ea;
-            box-shadow: 0 15px 35px rgba(147, 51, 234, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);
         }
 
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #c084fc;
         }
 
-        .feature-card:hover .feature-icon {
-            transform: scale(1.2) rotate(5deg);
-        }
-
-        .feature-title {
+        .feature-card h3 {
             font-size: 1.3rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             color: #e4e4e7;
         }
 
-        .feature-description {
+        .feature-card p {
+            font-size: 1rem;
+            color: #a1a1aa;
+            line-height: 1.6;
+        }
+
+        .showcase-section {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 60px;
+        }
+
+        .showcase-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .showcase-text {
+            flex: 1;
+        }
+
+        .showcase-text h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #e4e4e7;
+        }
+
+        .showcase-text p {
+            font-size: 1.1rem;
+            color: #a1a1aa;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #e4e4e7;
+        }
+
+        .feature-list li i {
+            color: #c084fc;
+        }
+
+        .showcase-visual {
+            flex: 1;
+            position: relative;
+            height: 300px;
+        }
+
+        .data-visualization {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .data-point {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #c084fc;
+            animation: moveData 3s ease-in-out infinite alternate;
+        }
+
+        .data-point:nth-child(1) {
+            top: 20%;
+            left: 30%;
+            animation-delay: 0s;
+        }
+
+        .data-point:nth-child(2) {
+            top: 50%;
+            left: 70%;
+            animation-delay: 0.5s;
+        }
+
+        .data-point:nth-child(3) {
+            top: 80%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        .data-point:nth-child(4) {
+            top: 40%;
+            left: 50%;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes moveData {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(20px, -20px);
+                opacity: 0.3;
+            }
+        }
+
+        .about-section {
+            margin-bottom: 80px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .about-card {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);
+        }
+
+        .about-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #c084fc;
+        }
+
+        .about-card h3 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e4e4e7;
+        }
+
+        .about-card p {
+            font-size: 1rem;
             color: #a1a1aa;
             line-height: 1.6;
         }
 
         .cta-section {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            padding: 50px;
             text-align: center;
-            padding: 80px 30px;
-            background: rgba(147, 51, 234, 0.1);
-            border-top: 1px solid rgba(147, 51, 234, 0.3);
-            border-bottom: 1px solid rgba(147, 51, 234, 0.3);
-            margin: 80px 0;
-            animation: slideInFromLeft 0.8s ease-out;
+            margin-bottom: 80px;
         }
 
-        .cta-title {
+        .cta-content h2 {
             font-size: 2.5rem;
             font-weight: bold;
             margin-bottom: 20px;
             color: #e4e4e7;
         }
 
-        .cta-description {
-            font-size: 1.1rem;
+        .cta-content p {
+            font-size: 1.2rem;
             color: #a1a1aa;
             margin-bottom: 40px;
         }
 
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-btn {
+        .cta-button {
+            display: inline-block;
             padding: 15px 30px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .cta-primary {
             background: linear-gradient(45deg, #9333ea, #7c3aed);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
             color: white;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .cta-secondary {
-            background: rgba(147, 51, 234, 0.2);
-            border: 1px solid rgba(147, 51, 234, 0.5);
-            color: #c084fc;
-        }
-
-        .cta-btn:hover {
+        .cta-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(147, 51, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
         }
 
         .footer {
-            text-align: center;
-            padding: 40px 30px;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
             border-top: 1px solid rgba(147, 51, 234, 0.3);
-            background: rgba(20, 20, 20, 0.8);
+            padding: 50px 40px;
             color: #a1a1aa;
         }
 
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1 1 300px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #e4e4e7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #e4e4e7;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #a1a1aa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-section a:hover {
+            color: #c084fc;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(147, 51, 234, 0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Styles */
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-                word-break: break-word;
-                hyphens: auto;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.1rem;
-                padding: 0 10px;
-            }
-            
-            .nav-menu {
-                display: none;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 15px;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-                word-break: break-word;
-            }
-            
             .header {
                 padding: 15px 20px;
             }
-            
-            .hero-section {
-                padding: 80px 20px 60px;
+
+            .logo {
+                font-size: 1.5rem;
             }
-            
-            .features-section {
-                padding: 60px 20px;
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 300px;
+                height: 100vh;
+                background: rgba(20, 20, 20, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                transition: right 0.3s ease;
+                border-left: 1px solid rgba(147, 51, 234, 0.3);
             }
-            
-            .cta-section {
-                padding: 60px 20px;
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-item {
+                margin: 10px 0;
+                padding: 15px 20px;
+                border-radius: 10px;
+                font-size: 1.1rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .main-content {
+                padding: 30px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .showcase-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .showcase-visual {
+                order: -1;
+                margin-bottom: 30px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-section {
+                margin-bottom: 30px;
+            }
+
+            .footer-bottom {
+                margin-top: 20px;
             }
         }
 
-        @media (max-width: 480px) {
-            .hero-title {
-                font-size: 2rem;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stat-card {
-                padding: 20px 15px;
-            }
-            
-            .feature-card {
-                padding: 20px;
-            }
-            
-            .feature-title {
-                font-size: 1.1rem;
-            }
-            
-            .logo {
-                font-size: 1.2rem;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
@@ -426,100 +679,213 @@
     <div class="cyber-bg"></div>
     
     <header class="header">
-        <div class="logo">CyberOSINT</div>
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            CyberOSINT
+        </div>
         <nav class="nav-menu">
+            <a href="homepage.html" class="nav-item active">Home</a>
             <a href="#features" class="nav-item">Features</a>
             <a href="#about" class="nav-item">About</a>
-            <a href="#contact" class="nav-item">Contact</a>
+            <a href="index.html" class="nav-item">Login</a>
         </nav>
-        <a href="index.html" class="auth-btn">Login</a>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
 
-    <main>
-        <section class="hero-section">
-            <h1 class="hero-title">CyberOSINT</h1>
-            <p class="hero-subtitle">The World's Most Advanced Open Source Intelligence Platform</p>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">70B+</div>
-                    <div class="stat-label">Records</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">3,300+</div>
-                    <div class="stat-label">Databases</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Uptime</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Support</div>
+    <main class="main-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Advanced Open Source Intelligence Platform</h1>
+                <p>Harness the power of comprehensive data analysis with our cutting-edge OSINT tools and extensive database network.</p>
+                <div class="cta-buttons">
+                    <a href="index.html" class="cta-primary">
+                        <i class="fas fa-rocket"></i> Get Started
+                    </a>
+                    <a href="#features" class="cta-secondary">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section class="features-section" id="features">
-            <h2 class="section-title">Powerful Intelligence Tools</h2>
-            <p class="section-subtitle">Comprehensive OSINT capabilities at your fingertips</p>
-            
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="stat-number">70B+</div>
+                    <div class="stat-label">Data Records</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="stat-number">3,300+</div>
+                    <div class="stat-label">Databases</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Search Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Real-time Updates</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features-section">
+            <h2 class="section-title">Powerful OSINT Capabilities</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">👤</div>
-                    <h3 class="feature-title">Username Search</h3>
-                    <p class="feature-description">Search across thousands of platforms and databases using username intelligence. Uncover digital footprints and social media presence instantly.</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>Username Search</h3>
+                    <p>Comprehensive username tracking across multiple platforms and databases with advanced pattern recognition.</p>
                 </div>
-                
                 <div class="feature-card">
-                    <div class="feature-icon">📧</div>
-                    <h3 class="feature-title">Email Intelligence</h3>
-                    <p class="feature-description">Advanced email verification, breach detection, and associated account discovery. Track email addresses across multiple data sources.</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Intelligence</h3>
+                    <p>Deep email analysis including breach history, associated accounts, and metadata extraction.</p>
                 </div>
-                
                 <div class="feature-card">
-                    <div class="feature-icon">🏢</div>
-                    <h3 class="feature-title">Name Search</h3>
-                    <p class="feature-description">Comprehensive people search capabilities. Find individuals across public records, social networks, and professional databases.</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3>Name Verification</h3>
+                    <p>Full name searches with cross-referencing across public records and social media platforms.</p>
                 </div>
-                
                 <div class="feature-card">
-                    <div class="feature-icon">🌐</div>
-                    <h3 class="feature-title">Domain Intelligence</h3>
-                    <p class="feature-description">Deep domain analysis, subdomain enumeration, and infrastructure mapping. Uncover hidden digital assets and connections.</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Domain Analysis</h3>
+                    <p>Complete domain intelligence including subdomain discovery, DNS records, and infrastructure mapping.</p>
                 </div>
-                
                 <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3 class="feature-title">Social Media Monitoring</h3>
-                    <p class="feature-description">Real-time social media surveillance across major platforms. Track mentions, posts, and digital activities.</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Social Media Monitoring</h3>
+                    <p>Real-time social media surveillance and profile analysis across major platforms.</p>
                 </div>
-                
                 <div class="feature-card">
-                    <div class="feature-icon">🔍</div>
-                    <h3 class="feature-title">Advanced Analytics</h3>
-                    <p class="feature-description">AI-powered data correlation and pattern recognition. Transform raw intelligence into actionable insights.</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <h3>Data Breach Detection</h3>
+                    <p>Instant alerts for data breaches and compromised information across our extensive database network.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="showcase-section">
+            <div class="showcase-content">
+                <div class="showcase-text">
+                    <h2>Industry-Leading Database Access</h2>
+                    <p>Our platform provides unparalleled access to over 70 billion records across 3,300+ databases, ensuring comprehensive coverage for all your intelligence gathering needs.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Real-time data synchronization</li>
+                        <li><i class="fas fa-check"></i> Advanced search algorithms</li>
+                        <li><i class="fas fa-check"></i> Multi-source correlation</li>
+                        <li><i class="fas fa-check"></i> Secure encrypted access</li>
+                    </ul>
+                </div>
+                <div class="showcase-visual">
+                    <div class="data-visualization">
+                        <div class="data-point"></div>
+                        <div class="data-point"></div>
+                        <div class="data-point"></div>
+                        <div class="data-point"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <h2 class="section-title">Why Choose CyberOSINT?</h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <i class="fas fa-lock"></i>
+                    <h3>Enterprise Security</h3>
+                    <p>Military-grade encryption and security protocols protect your investigations and maintain operational security.</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>Lightning Fast</h3>
+                    <p>Advanced indexing and search algorithms deliver results in milliseconds, not minutes.</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Expert Support</h3>
+                    <p>24/7 support from OSINT professionals and intelligence analysts to assist with complex investigations.</p>
                 </div>
             </div>
         </section>
 
         <section class="cta-section">
-            <h2 class="cta-title">Ready to Start Your Investigation?</h2>
-            <p class="cta-description">Join thousands of security professionals, investigators, and researchers who trust CyberOSINT for their intelligence needs.</p>
-            
-            <div class="cta-buttons">
-                <a href="index.html" class="cta-btn cta-primary">Start Free Trial</a>
-                <a href="subscription.html" class="cta-btn cta-secondary">View Plans</a>
+            <div class="cta-content">
+                <h2>Ready to Start Your Intelligence Operations?</h2>
+                <p>Join thousands of professionals who trust CyberOSINT for their intelligence gathering needs.</p>
+                <a href="index.html" class="cta-button">
+                    <i class="fas fa-sign-in-alt"></i> Access Platform
+                </a>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <p>&copy; 2024 CyberOSINT. All rights reserved. | Military-grade security and encryption.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-shield-alt"></i> CyberOSINT</h3>
+                <p>Advanced Open Source Intelligence Platform for professionals worldwide.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-search"></i> Search Tools</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                    <li><a href="#"><i class="fas fa-comments"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CyberOSINT. All rights reserved. | Professional OSINT Platform</p>
+        </div>
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -533,6 +899,17 @@
             });
         });
 
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
         // Animate elements on scroll
         const observerOptions = {
             threshold: 0.1,
@@ -542,21 +919,13 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.animationPlayState = 'running';
                 }
             });
         }, observerOptions);
 
-        // Observe all animated elements
-        document.addEventListener('DOMContentLoaded', function() {
-            const animatedElements = document.querySelectorAll('.feature-card, .stat-card');
-            animatedElements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(el);
-            });
+        document.querySelectorAll('.feature-card, .stat-card, .about-card').forEach(el => {
+            observer.observe(el);
         });
     </script>
 </body>
