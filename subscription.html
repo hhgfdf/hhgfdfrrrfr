@@ -1,0 +1,427 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberOSINT - Subscription Plans</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0b2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #ffffff;
+        }
+
+        .header {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(147, 51, 234, 0.3);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #9333ea, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: #e4e4e7;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(147, 51, 234, 0.2);
+            color: #c084fc;
+        }
+
+        .back-btn {
+            background: rgba(147, 51, 234, 0.2);
+            border: 1px solid rgba(147, 51, 234, 0.5);
+            color: #c084fc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(147, 51, 234, 0.3);
+        }
+
+        .main-content {
+            padding: 50px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #9333ea, #c084fc, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #a1a1aa;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .pricing-card {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(147, 51, 234, 0.2);
+        }
+
+        .pricing-card.featured {
+            border-color: #9333ea;
+            box-shadow: 0 15px 35px rgba(147, 51, 234, 0.3);
+        }
+
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e4e4e7;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #c084fc;
+            margin-bottom: 5px;
+        }
+
+        .plan-period {
+            color: #a1a1aa;
+            margin-bottom: 30px;
+        }
+
+        .plan-description {
+            color: #a1a1aa;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            color: #e4e4e7;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .features-list li.unavailable {
+            color: #71717a;
+        }
+
+        .features-list li.unavailable::before {
+            content: '✗';
+            color: #ef4444;
+        }
+
+        .subscribe-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #9333ea, #7c3aed);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
+        }
+
+        .subscribe-btn.secondary {
+            background: rgba(147, 51, 234, 0.2);
+            border: 1px solid rgba(147, 51, 234, 0.5);
+        }
+
+        .enterprise-section {
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .enterprise-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e4e4e7;
+            margin-bottom: 20px;
+        }
+
+        .enterprise-description {
+            color: #a1a1aa;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .contact-btn {
+            background: rgba(147, 51, 234, 0.2);
+            border: 1px solid rgba(147, 51, 234, 0.5);
+            color: #c084fc;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .contact-btn:hover {
+            background: rgba(147, 51, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .security-notice {
+            background: rgba(147, 51, 234, 0.1);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #e4e4e7;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">CyberOSINT</div>
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item">Dashboard</a>
+            <a href="#" class="nav-item">Investigations</a>
+            <a href="#" class="nav-item">Reports</a>
+            <a href="subscription.html" class="nav-item active">Subscription</a>
+        </nav>
+        <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+    </header>
+
+    <main class="main-content">
+        <h1 class="page-title">Choose Your Plan</h1>
+        <p class="page-subtitle">
+            Select the perfect subscription plan for your OSINT needs. All plans include military-grade security and 24/7 monitoring.
+        </p>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="plan-name">Basic Operative</div>
+                <div class="plan-price">$29</div>
+                <div class="plan-period">per month</div>
+                <div class="plan-description">Perfect for individual investigators and small-scale operations</div>
+                
+                <ul class="features-list">
+                    <li>Up to 5 concurrent investigations</li>
+                    <li>Basic OSINT tools access</li>
+                    <li>100 data points per month</li>
+                    <li>Email support</li>
+                    <li>Standard reporting</li>
+                    <li class="unavailable">Advanced threat detection</li>
+                    <li class="unavailable">API access</li>
+                    <li class="unavailable">Dark web monitoring</li>
+                </ul>
+                
+                <button class="subscribe-btn secondary" onclick="subscribe('basic')">Choose Basic</button>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="plan-name">Pro Analyst</div>
+                <div class="plan-price">$89</div>
+                <div class="plan-period">per month</div>
+                <div class="plan-description">Advanced capabilities for professional investigators and security teams</div>
+                
+                <ul class="features-list">
+                    <li>Unlimited investigations</li>
+                    <li>Full OSINT toolkit access</li>
+                    <li>1,000 data points per month</li>
+                    <li>Priority support</li>
+                    <li>Advanced reporting & analytics</li>
+                    <li>Real-time threat detection</li>
+                    <li>API access</li>
+                    <li>Basic dark web monitoring</li>
+                </ul>
+                
+                <button class="subscribe-btn" onclick="subscribe('pro')">Choose Pro</button>
+            </div>
+
+            <div class="pricing-card">
+                <div class="plan-name">Elite Operator</div>
+                <div class="plan-price">$199</div>
+                <div class="plan-period">per month</div>
+                <div class="plan-description">Maximum power for large organizations and government agencies</div>
+                
+                <ul class="features-list">
+                    <li>Unlimited investigations</li>
+                    <li>Full OSINT toolkit + exclusive tools</li>
+                    <li>Unlimited data points</li>
+                    <li>24/7 dedicated support</li>
+                    <li>Custom reporting & white-label</li>
+                    <li>AI-powered threat detection</li>
+                    <li>Full API access</li>
+                    <li>Advanced dark web monitoring</li>
+                </ul>
+                
+                <button class="subscribe-btn" onclick="subscribe('elite')">Choose Elite</button>
+            </div>
+        </div>
+
+        <div class="enterprise-section">
+            <h2 class="enterprise-title">Enterprise & Government Solutions</h2>
+            <p class="enterprise-description">
+                Need custom solutions, on-premise deployment, or specialized compliance requirements? 
+                Our enterprise team can create a tailored OSINT platform that meets your specific security and intelligence needs.
+            </p>
+            <button class="contact-btn" onclick="contactEnterprise()">Contact Sales Team</button>
+        </div>
+
+        <div class="security-notice">
+            🔐 <strong>Security Guarantee:</strong> All subscription plans include end-to-end encryption, 
+            zero-knowledge architecture, and compliance with international security standards. 
+            Your investigations remain completely confidential and secure.
+        </div>
+    </main>
+
+    <script>
+        function subscribe(plan) {
+            const planNames = {
+                'basic': 'Basic Operative',
+                'pro': 'Pro Analyst', 
+                'elite': 'Elite Operator'
+            };
+            
+            const planPrices = {
+                'basic': '$29/month',
+                'pro': '$89/month',
+                'elite': '$199/month'
+            };
+
+            if (confirm(`Subscribe to ${planNames[plan]} plan for ${planPrices[plan]}?\n\nThis will redirect you to our secure payment processor.`)) {
+                alert('Redirecting to secure payment portal...\n\n(In a real application, this would connect to a payment processor like Stripe)');
+                // In a real app, redirect to payment processor
+                // window.location.href = `payment.html?plan=${plan}`;
+            }
+        }
+
+        function contactEnterprise() {
+            alert('Enterprise Contact Information:\n\n' +
+                  '📧 enterprise@cyberosint.com\n' +
+                  '📞 +1 (555) 123-OSINT\n' +
+                  '🔒 Secure Contact Form Available\n\n' +
+                  'Our enterprise team will respond within 4 hours.');
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.pricing-card');
+            
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(50px)';
+                    card.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
