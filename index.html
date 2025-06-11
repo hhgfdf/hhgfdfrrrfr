@@ -90,7 +90,6 @@
         .logo {
             text-align: center;
             margin-bottom: 30px;
-            animation: slideIn 1s ease-out 0.2s both;
         }
 
         .logo h1 {
@@ -108,42 +107,8 @@
             font-size: 0.9rem;
         }
 
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: rgba(40, 40, 40, 0.8);
-        }
-
-        .auth-tab {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            background: transparent;
-            color: #a1a1aa;
-        }
-
-        .auth-tab.active {
-            background: linear-gradient(45deg, #9333ea, #7c3aed);
-            color: white;
-        }
-
-        .auth-form {
-            display: none;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
         .form-group {
             margin-bottom: 20px;
-            animation: slideIn 0.6s ease-out;
         }
 
         label {
@@ -153,7 +118,7 @@
             font-weight: 500;
         }
 
-        input[type="email"], input[type="password"], input[type="text"] {
+        input[type="text"] {
             width: 100%;
             padding: 15px;
             background: rgba(40, 40, 40, 0.8);
@@ -164,11 +129,10 @@
             transition: all 0.3s ease;
         }
 
-        input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus {
+        input[type="text"]:focus {
             outline: none;
             border-color: #9333ea;
             box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
-            animation: glow 2s infinite;
         }
 
         .login-btn {
@@ -188,7 +152,6 @@
         .login-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
-            animation: glow 1s infinite;
         }
 
         .generate-token-btn {
@@ -222,19 +185,19 @@
             display: none;
         }
 
-        .forgot-password {
+        .back-to-home {
             text-align: center;
             margin-top: 20px;
         }
 
-        .forgot-password a {
+        .back-to-home a {
             color: #c084fc;
             text-decoration: none;
             font-size: 14px;
             transition: all 0.3s ease;
         }
 
-        .forgot-password a:hover {
+        .back-to-home a:hover {
             text-decoration: underline;
             text-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
         }
@@ -247,11 +210,6 @@
             margin-top: 20px;
             font-size: 12px;
             color: #e4e4e7;
-            animation: slideIn 0.8s ease-out 0.4s both;
-        }
-
-        .hamburger {
-            display: none;
         }
 
         @media (max-width: 768px) {
@@ -270,41 +228,20 @@
             <h1>CyberOSINT</h1>
             <p>Open Source Intelligence Platform</p>
         </div>
-        
-        <div class="auth-tabs">
-            <button class="auth-tab active" onclick="switchTab('credentials')">Credentials</button>
-            <button class="auth-tab" onclick="switchTab('token')">Auth Token</button>
-        </div>
 
-        <form id="credentialsForm" class="auth-form active">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" required>
-            </div>
-            
-            <button type="submit" class="login-btn">Access System</button>
-        </form>
-
-        <div id="tokenForm" class="auth-form">
-            <div class="form-group">
-                <label for="authToken">Authentication Token</label>
-                <input type="text" id="authToken" placeholder="Enter your auth token">
-            </div>
-            
-            <button type="button" class="login-btn" onclick="loginWithToken()">Authenticate</button>
-            
-            <button type="button" class="generate-token-btn" onclick="generateToken()">Generate New Token</button>
-            
-            <div id="tokenDisplay" class="token-display"></div>
+        <div class="form-group">
+            <label for="authToken">Authentication Token</label>
+            <input type="text" id="authToken" placeholder="Enter your auth token">
         </div>
         
-        <div class="forgot-password">
-            <a href="#" onclick="alert('Contact system administrator for password reset')">Forgot Password?</a>
+        <button type="button" class="login-btn" onclick="loginWithToken()">Authenticate</button>
+        
+        <button type="button" class="generate-token-btn" onclick="generateToken()">Generate New Token</button>
+        
+        <div id="tokenDisplay" class="token-display"></div>
+        
+        <div class="back-to-home">
+            <a href="homepage.html">← Back to Home</a>
         </div>
         
         <div class="security-notice">
@@ -313,18 +250,6 @@
     </div>
 
     <script>
-        function switchTab(tabName) {
-            // Remove active class from all tabs and forms
-            document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
-            
-            // Show corresponding form
-            document.getElementById(tabName + 'Form').classList.add('active');
-        }
-
         function generateToken() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let token = 'OSINT_';
@@ -336,11 +261,7 @@
             tokenDisplay.textContent = token;
             tokenDisplay.style.display = 'block';
             
-            // Store token in localStorage for demo purposes
             localStorage.setItem('authToken', token);
-            
-            // Add animation
-            tokenDisplay.style.animation = 'slideIn 0.5s ease-out';
         }
 
         function loginWithToken() {
@@ -348,40 +269,15 @@
             const storedToken = localStorage.getItem('authToken');
             
             if (token && (token === storedToken || token.startsWith('OSINT_'))) {
-                authenticateUser();
+                document.querySelector('.login-btn').textContent = 'Authenticating...';
+                
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
             } else {
                 alert('Invalid authentication token. Please check your token or generate a new one.');
             }
         }
-
-        function authenticateUser() {
-            document.querySelector('.login-btn').textContent = 'Authenticating...';
-            
-            // Add glowing effect during authentication
-            document.querySelector('.login-container').style.animation = 'glow 0.5s ease-in-out';
-            
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1500);
-        }
-
-        document.getElementById('credentialsForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (email && password) {
-                authenticateUser();
-            }
-        });
-
-        // Add smooth entrance animations
-        document.addEventListener('DOMContentLoaded', function() {
-            const elements = document.querySelectorAll('.form-group');
-            elements.forEach((el, index) => {
-                el.style.animationDelay = `${0.6 + index * 0.1}s`;
-            });
-        });
     </script>
 </body>
 </html>
