@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSINTKit - Dashboard</title>
+    <title>OSINTKit - Intelligence Dashboard</title>
     <script src="https://kit.fontawesome.com/602b64b73f.js" crossorigin="anonymous"></script>
     <style>
         * {
@@ -104,6 +104,10 @@
             padding: 5px;
             z-index: 1001;
             position: relative;
+            width: 30px;
+            height: 30px;
+            justify-content: center;
+            align-items: center;
         }
 
         .hamburger span {
@@ -111,13 +115,14 @@
             height: 3px;
             background: #c084fc;
             margin: 3px 0;
-            transition: 0.3s;
+            transition: 0.3s ease;
             border-radius: 2px;
             transform-origin: center;
+            display: block;
         }
 
         .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(0px, 9px);
+            transform: rotate(45deg) translate(0px, 6px);
         }
 
         .hamburger.active span:nth-child(2) {
@@ -125,7 +130,7 @@
         }
 
         .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(0px, -9px);
+            transform: rotate(-45deg) translate(0px, -6px);
         }
 
         .nav-menu {
