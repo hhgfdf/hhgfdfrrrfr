@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberOSINT - Dashboard</title>
+    <title>OSINTKit - Dashboard</title>
     <script src="https://kit.fontawesome.com/602b64b73f.js" crossorigin="anonymous"></script>
     <style>
         * {
@@ -621,6 +621,10 @@
             transition: all 0.3s ease;
             white-space: nowrap;
             min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .search-btn:hover {
@@ -653,6 +657,35 @@
             display: none;
             margin-top: 30px;
             animation: slideInFromLeft 0.6s ease-out;
+            position: relative;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            background: rgba(147, 51, 234, 0.2);
+            border: 1px solid rgba(147, 51, 234, 0.5);
+            border-radius: 8px;
+            color: #c084fc;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(147, 51, 234, 0.3);
+            transform: translateY(-1px);
         }
 
         .breach-container {
@@ -667,7 +700,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(147, 51, 234, 0.3);
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             transition: all 0.3s ease;
             animation: fadeIn 0.6s ease-out;
         }
@@ -676,6 +709,15 @@
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(147, 51, 234, 0.2);
             border-color: #9333ea;
+        }
+
+        .breach-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #c084fc;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
         }
 
         .json-data {
@@ -715,7 +757,7 @@
     <div class="moving-grid"></div>
     
     <header class="header">
-        <div class="logo">CyberOSINT</div>
+        <div class="logo">OSINTKit</div>
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
@@ -777,7 +819,17 @@
         </div>
 
         <div id="dataResults" class="data-results">
-            <h2 class="section-title">Search Results</h2>
+            <div class="results-header">
+                <h2 class="section-title">Search Results</h2>
+                <div class="results-actions">
+                    <button class="action-btn" onclick="copyAllData()">
+                        <i class="fas fa-copy"></i> Copy All
+                    </button>
+                    <button class="action-btn" onclick="exportAllData()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
             <div id="breachContainer" class="breach-container">
                 <!-- Search result containers will be dynamically inserted here -->
             </div>
@@ -834,6 +886,7 @@
 
     <script>
         let animationsInitialized = false;
+        let allBreachData = [];
 
         // Sample JSON data for search results
         const sampleData = [
@@ -893,14 +946,18 @@
             
             // Clear previous results
             breachContainer.innerHTML = '';
+            allBreachData = [];
             
             // Generate result containers with JSON data
             sampleData.forEach((data, index) => {
+                allBreachData.push(data);
+                
                 const resultCard = document.createElement('div');
                 resultCard.className = 'breach-card';
                 resultCard.style.animationDelay = `${index * 0.2}s`;
                 
                 resultCard.innerHTML = `
+                    <div class="breach-title">${data.database}</div>
                     <div class="json-data">${JSON.stringify(data, null, 2)}</div>
                 `;
                 
@@ -910,6 +967,94 @@
             // Show results
             dataResults.style.display = 'block';
             dataResults.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyAllData() {
+            if (allBreachData.length === 0) {
+                alert('No data to copy');
+                return;
+            }
+            
+            const allDataText = JSON.stringify(allBreachData, null, 2);
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(allDataText).then(() => {
+                    showNotification('All data copied to clipboard!');
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = allDataText;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    showNotification('All data copied to clipboard!');
+                } catch (err) {
+                    console.error('Failed to copy data to clipboard');
+                }
+                
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function exportAllData() {
+            if (allBreachData.length === 0) {
+                alert('No data to export');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(allBreachData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'breach_data_export.json';
+            link.click();
+            
+            showNotification('Data exported successfully!');
+        }
+
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(16, 185, 129, 0.9);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
         }
 
         function toggleMenu() {
