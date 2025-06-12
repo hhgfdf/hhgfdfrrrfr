@@ -221,9 +221,10 @@
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
             margin-bottom: 30px;
+            animation: slideInFromLeft 0.6s ease-out;
         }
 
         .card {
@@ -425,7 +426,7 @@
             }
             
             .dashboard-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
                 gap: 15px;
             }
             
@@ -475,10 +476,6 @@
         }
 
         @media (max-width: 480px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .card-value {
                 font-size: 1.8rem;
             }
@@ -678,55 +675,17 @@
             border-color: #9333ea;
         }
 
-        .breach-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            gap: 15px;
-        }
-
-        .breach-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background: linear-gradient(45deg, #dc2626, #ef4444);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .breach-title {
-            font-size: 1.3rem;
-            font-weight: bold;
+        .json-data {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
             color: #e4e4e7;
-        }
-
-        .breach-details {
-            color: #a1a1aa;
-            line-height: 1.6;
-        }
-
-        .breach-stat {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
-        }
-
-        .breach-stat:last-child {
-            border-bottom: none;
-        }
-
-        .stat-label {
-            font-weight: 500;
-            color: #c084fc;
-        }
-
-        .stat-value {
-            color: #e4e4e7;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            line-height: 1.4;
         }
 
         @media (max-width: 768px) {
@@ -741,6 +700,10 @@
             
             .breach-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .json-data {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -772,6 +735,35 @@
     </header>
 
     <main class="main-content">
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-database"></i></div>
+                    <div class="card-title">Total Databases</div>
+                </div>
+                <div class="card-value">3,347</div>
+                <div class="card-description">Active data sources</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
+                    <div class="card-title">Records Analyzed</div>
+                </div>
+                <div class="card-value">70.2B</div>
+                <div class="card-description">Total records processed</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-server"></i></div>
+                    <div class="card-title">Server Status</div>
+                </div>
+                <div class="card-value">ONLINE</div>
+                <div class="card-description">All systems operational</div>
+            </div>
+        </div>
+
         <div class="search-section">
             <div class="search-container">
                 <input type="text" class="search-box" id="searchInput" placeholder="Search databases, investigations, targets...">
@@ -782,47 +774,9 @@
         </div>
 
         <div id="dataResults" class="data-results">
-            <h2 class="section-title">Data Breach Results</h2>
+            <h2 class="section-title">Search Results</h2>
             <div id="breachContainer" class="breach-container">
-                <!-- Breach cards will be dynamically inserted here -->
-            </div>
-        </div>
-
-        <div class="dashboard-grid">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-search"></i></div>
-                    <div class="card-title">Active Investigations</div>
-                </div>
-                <div class="card-value">23</div>
-                <div class="card-description">Currently running OSINT operations</div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
-                    <div class="card-title">Data Points Collected</div>
-                </div>
-                <div class="card-value">1,547</div>
-                <div class="card-description">Intelligence data points this month</div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-crosshairs"></i></div>
-                    <div class="card-title">Threat Level</div>
-                </div>
-                <div class="card-value">LOW</div>
-                <div class="card-description">Current cybersecurity threat assessment</div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-bolt"></i></div>
-                    <div class="card-title">System Status</div>
-                </div>
-                <div class="card-value">98.7%</div>
-                <div class="card-description">Platform uptime and availability</div>
+                <!-- Search result containers will be dynamically inserted here -->
             </div>
         </div>
 
@@ -919,31 +873,34 @@
     <script>
         let animationsInitialized = false;
 
-        // Sample data breach data
-        const sampleBreaches = [
+        // Sample JSON data for search results
+        const sampleData = [
             {
-                name: "TechCorp Data Breach",
-                date: "2024-03-15",
-                records: "2.4M",
-                severity: "High",
-                type: "Email, Password, Personal Info",
-                description: "Major technology company exposed user credentials and personal information."
+                "database": "TechCorp_Users_2024",
+                "breach_date": "2024-03-15",
+                "records_found": 2400000,
+                "data_types": ["email", "password_hash", "username", "personal_info"],
+                "severity": "critical",
+                "source": "data_breach_db",
+                "verification_status": "verified"
             },
             {
-                name: "SocialNet Leak",
-                date: "2024-02-28",
-                records: "890K",
-                severity: "Medium",
-                type: "Email, Username, Profile Data",
-                description: "Social media platform leaked user profile information and contact details."
+                "database": "SocialNet_Profiles_Leak",
+                "breach_date": "2024-02-28", 
+                "records_found": 890000,
+                "data_types": ["email", "username", "profile_data", "location"],
+                "severity": "medium",
+                "source": "public_leak",
+                "verification_status": "verified"
             },
             {
-                name: "RetailChain Incident",
-                date: "2024-01-12",
-                records: "3.1M",
-                severity: "Critical",
-                type: "Email, Payment Info, Addresses",
-                description: "Retail chain database compromised exposing customer payment and shipping information."
+                "database": "RetailChain_Customers",
+                "breach_date": "2024-01-12",
+                "records_found": 3100000,
+                "data_types": ["email", "payment_info", "addresses", "phone"],
+                "severity": "high",
+                "source": "corporate_breach",
+                "verification_status": "pending"
             }
         ];
 
@@ -962,56 +919,30 @@
 
             // Simulate API call with 3 second delay
             setTimeout(() => {
-                displayBreachResults();
+                displaySearchResults();
                 searchBtn.disabled = false;
                 searchBtn.innerHTML = '<i class="fas fa-search"></i> Search';
             }, 3000);
         }
 
-        function displayBreachResults() {
+        function displaySearchResults() {
             const dataResults = document.getElementById('dataResults');
             const breachContainer = document.getElementById('breachContainer');
             
             // Clear previous results
             breachContainer.innerHTML = '';
             
-            // Generate breach cards
-            sampleBreaches.forEach((breach, index) => {
-                const breachCard = document.createElement('div');
-                breachCard.className = 'breach-card';
-                breachCard.style.animationDelay = `${index * 0.2}s`;
+            // Generate result containers with JSON data
+            sampleData.forEach((data, index) => {
+                const resultCard = document.createElement('div');
+                resultCard.className = 'breach-card';
+                resultCard.style.animationDelay = `${index * 0.2}s`;
                 
-                breachCard.innerHTML = `
-                    <div class="breach-header">
-                        <div class="breach-icon">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <div class="breach-title">${breach.name}</div>
-                    </div>
-                    <div class="breach-details">
-                        <div class="breach-stat">
-                            <span class="stat-label">Date:</span>
-                            <span class="stat-value">${breach.date}</span>
-                        </div>
-                        <div class="breach-stat">
-                            <span class="stat-label">Records:</span>
-                            <span class="stat-value">${breach.records}</span>
-                        </div>
-                        <div class="breach-stat">
-                            <span class="stat-label">Severity:</span>
-                            <span class="stat-value">${breach.severity}</span>
-                        </div>
-                        <div class="breach-stat">
-                            <span class="stat-label">Data Types:</span>
-                            <span class="stat-value">${breach.type}</span>
-                        </div>
-                        <div style="margin-top: 15px; color: #a1a1aa; font-size: 0.9rem;">
-                            ${breach.description}
-                        </div>
-                    </div>
+                resultCard.innerHTML = `
+                    <div class="json-data">${JSON.stringify(data, null, 2)}</div>
                 `;
                 
-                breachContainer.appendChild(breachCard);
+                breachContainer.appendChild(resultCard);
             });
             
             // Show results
