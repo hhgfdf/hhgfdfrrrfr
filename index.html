@@ -260,6 +260,37 @@
             transform: translateY(0);
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+            position: relative;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #c084fc;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(0px, 9px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(0px, -9px);
+        }
+
         @media (max-width: 768px) {
             .login-container {
                 width: 95%;

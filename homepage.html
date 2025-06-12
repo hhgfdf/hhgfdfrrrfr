@@ -113,6 +113,8 @@
             flex-direction: column;
             cursor: pointer;
             padding: 5px;
+            z-index: 1001;
+            position: relative;
         }
 
         .hamburger span {
@@ -122,10 +124,11 @@
             margin: 3px 0;
             transition: 0.3s;
             border-radius: 2px;
+            transform-origin: center;
         }
 
         .hamburger.active span:nth-child(1) {
-            transform: rotate(-45deg) translate(-5px, 6px);
+            transform: rotate(45deg) translate(0px, 9px);
         }
 
         .hamburger.active span:nth-child(2) {
@@ -133,7 +136,7 @@
         }
 
         .hamburger.active span:nth-child(3) {
-            transform: rotate(45deg) translate(-5px, -6px);
+            transform: rotate(-45deg) translate(0px, -9px);
         }
 
         .main-content {

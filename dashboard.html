@@ -103,6 +103,7 @@
             cursor: pointer;
             padding: 5px;
             z-index: 1001;
+            position: relative;
         }
 
         .hamburger span {
@@ -112,10 +113,11 @@
             margin: 3px 0;
             transition: 0.3s;
             border-radius: 2px;
+            transform-origin: center;
         }
 
         .hamburger.active span:nth-child(1) {
-            transform: rotate(-45deg) translate(-5px, 6px);
+            transform: rotate(45deg) translate(0px, 9px);
         }
 
         .hamburger.active span:nth-child(2) {
@@ -123,7 +125,7 @@
         }
 
         .hamburger.active span:nth-child(3) {
-            transform: rotate(45deg) translate(-5px, -6px);
+            transform: rotate(-45deg) translate(0px, -9px);
         }
 
         .nav-menu {
@@ -235,12 +237,13 @@
             padding: 25px;
             transition: all 0.3s ease;
             animation: slideInFromLeft 0.6s ease-out;
+            transform: translateY(0);
         }
 
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(147, 51, 234, 0.2);
-            animation: glow 2s infinite;
+            animation: none;
         }
 
         .card-header {
@@ -777,47 +780,6 @@
             <h2 class="section-title">Search Results</h2>
             <div id="breachContainer" class="breach-container">
                 <!-- Search result containers will be dynamically inserted here -->
-            </div>
-        </div>
-
-        <div class="tools-section">
-            <h2 class="section-title">OSINT Tools & Services</h2>
-            <div class="tools-grid">
-                <div class="tool-card" onclick="alert('Domain Intelligence Tool launching...')">
-                    <div class="tool-icon"><i class="fas fa-globe"></i></div>
-                    <div class="tool-name">Domain Intelligence</div>
-                    <div class="tool-description">Comprehensive domain and subdomain analysis</div>
-                </div>
-
-                <div class="tool-card" onclick="alert('Social Media Scanner launching...')">
-                    <div class="tool-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="tool-name">Social Media Scanner</div>
-                    <div class="tool-description">Social platform reconnaissance and monitoring</div>
-                </div>
-
-                <div class="tool-card" onclick="alert('Network Mapper launching...')">
-                    <div class="tool-icon"><i class="fas fa-map"></i></div>
-                    <div class="tool-name">Network Mapper</div>
-                    <div class="tool-description">Network topology and infrastructure mapping</div>
-                </div>
-
-                <div class="tool-card" onclick="alert('Email Tracer launching...')">
-                    <div class="tool-icon"><i class="fas fa-envelope"></i></div>
-                    <div class="tool-name">Email Intelligence</div>
-                    <div class="tool-description">Email address verification and tracing</div>
-                </div>
-
-                <div class="tool-card" onclick="alert('Image Analyzer launching...')">
-                    <div class="tool-icon"><i class="fas fa-image"></i></div>
-                    <div class="tool-name">Image Analyzer</div>
-                    <div class="tool-description">Metadata extraction and reverse image search</div>
-                </div>
-
-                <div class="tool-card" onclick="alert('Dark Web Monitor launching...')">
-                    <div class="tool-icon"><i class="fas fa-user-secret"></i></div>
-                    <div class="tool-name">Dark Web Monitor</div>
-                    <div class="tool-description">Dark web surveillance and intelligence</div>
-                </div>
             </div>
         </div>
 
