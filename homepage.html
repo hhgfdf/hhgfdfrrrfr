@@ -186,6 +186,17 @@
             margin-bottom: 40px;
         }
 
+        .hero-buttons {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-buttons .cta-button {
+            display: inline-block;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
         .cta-buttons {
             display: flex;
             justify-content: center;
@@ -721,7 +732,7 @@
             <div class="hero-content">
                 <h1 class="hero-title">OSINTKit</h1>
                 <p>Harness the power of comprehensive data analysis with our cutting-edge OSINT tools and extensive database network.</p>
-                <div class="cta-buttons">
+                <div class="hero-buttons">
                     <a href="index.html" class="cta-primary">
                         <i class="fas fa-rocket"></i> Get Started
                     </a>

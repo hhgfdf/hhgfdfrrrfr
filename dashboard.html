@@ -771,6 +771,120 @@
                 font-size: 0.8rem;
             }
         }
+
+        .profile-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .profile-pic-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #9333ea, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-pic-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-pic-placeholder {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .profile-upload input[type="file"] {
+            display: none;
+        }
+
+        .upload-btn {
+            background: rgba(147, 51, 234, 0.2);
+            border: 1px solid rgba(147, 51, 234, 0.5);
+            color: #c084fc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .upload-btn:hover {
+            background: rgba(147, 51, 234, 0.3);
+        }
+
+        .auth-section {
+            background: rgba(147, 51, 234, 0.1);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .auth-section h4 {
+            color: #c084fc;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .current-token {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 8px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #e4e4e7;
+            word-break: break-all;
+            margin-bottom: 15px;
+        }
+
+        .token-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .token-btn {
+            background: rgba(147, 51, 234, 0.2);
+            border: 1px solid rgba(147, 51, 234, 0.5);
+            color: #c084fc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .token-btn:hover {
+            background: rgba(147, 51, 234, 0.3);
+        }
+
+        .token-btn.danger {
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+        }
+
+        .token-btn.danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -892,8 +1006,42 @@
             <button class="popup-close" onclick="closePopup('settingsPopup')">&times;</button>
             <h2>Settings</h2>
             
+            <!-- Profile Section -->
+            <div class="profile-upload">
+                <div class="profile-pic-container" onclick="document.getElementById('profilePic').click()">
+                    <img id="profileImage" class="profile-pic" style="display: none;" />
+                    <div id="profilePlaceholder" class="profile-pic-placeholder">JD</div>
+                </div>
+                <input type="file" id="profilePic" accept="image/*" onchange="handleProfilePicUpload(event)">
+                <button class="upload-btn" onclick="document.getElementById('profilePic').click()">
+                    <i class="fas fa-camera"></i> Change Picture
+                </button>
+            </div>
+
+            <!-- Display Name Section -->
+            <h3 style="color: #c084fc; margin: 20px 0 10px 0;">Display Name</h3>
+            <input type="text" id="displayName" placeholder="Enter your display name" value="John Doe">
+            <button class="popup-btn" onclick="updateDisplayName()">Update Name</button>
+
+            <!-- Auth Token Section -->
+            <div class="auth-section">
+                <h4><i class="fas fa-key"></i> Authentication Token</h4>
+                <div class="current-token" id="currentToken">OSINT_abc123def456ghi789jkl012mno345pqr678stu</div>
+                <div class="token-actions">
+                    <button class="token-btn" onclick="copyCurrentToken()">
+                        <i class="fas fa-copy"></i> Copy Token
+                    </button>
+                    <button class="token-btn" onclick="refreshAuthToken()">
+                        <i class="fas fa-sync-alt"></i> Generate New
+                    </button>
+                    <button class="token-btn danger" onclick="revokeToken()">
+                        <i class="fas fa-ban"></i> Revoke
+                    </button>
+                </div>
+            </div>
+            
             <h3 style="color: #c084fc; margin: 20px 0 10px 0;">Your Referral Link</h3>
-            <input type="text" id="referralLink" value="https://cyberosint.com/ref/JD_8492" readonly>
+            <input type="text" id="referralLink" value="https://osintkit.com/ref/JD_8492" readonly>
             <button class="popup-btn" onclick="copyReferralLink()">Copy Link</button>
             
             <div class="referral-stats">
@@ -1128,6 +1276,98 @@
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
                 window.location.href = 'homepage.html';
+            }
+        }
+
+        function handleProfilePicUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const profileImage = document.getElementById('profileImage');
+                    const profilePlaceholder = document.getElementById('profilePlaceholder');
+                    
+                    profileImage.src = e.target.result;
+                    profileImage.style.display = 'block';
+                    profilePlaceholder.style.display = 'none';
+                    
+                    // Update header avatar if needed
+                    const headerAvatar = document.querySelector('.user-avatar');
+                    headerAvatar.style.backgroundImage = `url(${e.target.result})`;
+                    headerAvatar.style.backgroundSize = 'cover';
+                    headerAvatar.textContent = '';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateDisplayName() {
+            const displayName = document.getElementById('displayName').value;
+            if (displayName.trim()) {
+                showNotification('Display name updated successfully!');
+                // Update the header avatar initials if no profile picture
+                const headerAvatar = document.querySelector('.user-avatar');
+                if (!headerAvatar.style.backgroundImage) {
+                    const initials = displayName.trim().split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                    headerAvatar.textContent = initials;
+                    document.getElementById('profilePlaceholder').textContent = initials;
+                }
+            } else {
+                alert('Please enter a valid display name.');
+            }
+        }
+
+        function copyCurrentToken() {
+            const token = document.getElementById('currentToken').textContent;
+            copyToClipboard(token);
+        }
+
+        function refreshAuthToken() {
+            if (confirm('Generate a new authentication token? Your current token will be invalidated.')) {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let newToken = 'OSINT_';
+                for (let i = 0; i < 32; i++) {
+                    newToken += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                
+                document.getElementById('currentToken').textContent = newToken;
+                localStorage.setItem('authToken', newToken);
+                showNotification('New authentication token generated and copied!');
+                copyToClipboard(newToken);
+            }
+        }
+
+        function revokeToken() {
+            if (confirm('Are you sure you want to revoke your current token? You will need to generate a new one to continue using the service.')) {
+                document.getElementById('currentToken').textContent = 'TOKEN_REVOKED';
+                localStorage.removeItem('authToken');
+                showNotification('Authentication token has been revoked.');
+            }
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification('Token copied to clipboard!');
+                });
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    showNotification('Token copied to clipboard!');
+                } catch (err) {
+                    console.error('Failed to copy token to clipboard');
+                }
+                
+                document.body.removeChild(textArea);
             }
         }
 
