@@ -1,56 +1,504 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINTKit - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-import { cn } from "@/lib/utils"
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0b2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
+        .moving-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            opacity: 0.1;
+            z-index: 0;
+            background-image: 
+                linear-gradient(rgba(147, 51, 234, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(147, 51, 234, 0.3) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-}
+        @keyframes moveGrid {
+            0% { transform: translate(-50px, -50px); }
+            100% { transform: translate(0px, 0px); }
+        }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Button.displayName = "Button"
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #9333ea 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #7c3aed 0%, transparent 50%),
+                linear-gradient(45deg, transparent 30%, rgba(147, 51, 234, 0.1) 50%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite alternate;
+            z-index: 1;
+        }
 
-export { Button, buttonVariants }
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.6; }
+        }
+
+        header {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(147, 51, 234, 0.3);
+            padding: 20px;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #9333ea, #c084fc, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #a1a1aa;
+            font-size: 0.8rem;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .dashboard-item {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(147, 51, 234, 0.3);
+        }
+
+        .dashboard-item h2 {
+            color: #c084fc;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+        }
+
+        .dashboard-item p {
+            color: #e4e4e7;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(147, 51, 234, 0.3);
+            padding: 15px;
+            text-align: center;
+            color: #a1a1aa;
+            z-index: 10;
+        }
+
+        .tor-login-container {
+            max-width: 400px;
+            margin: 20px auto;
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.2);
+            text-align: center;
+        }
+
+        .tor-login-container h2 {
+            color: #c084fc;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+        }
+
+        .tor-login-container input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .tor-login-container input[type="text"]:focus {
+            outline: none;
+            border-color: #9333ea;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+        }
+
+        .tor-login-container button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #9333ea, #7c3aed);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tor-login-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.2);
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .search-container input[type="text"]:focus {
+            outline: none;
+            border-color: #9333ea;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+        }
+
+        .search-container button {
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #9333ea, #7c3aed);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .search-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover {
+            background: rgba(147, 51, 234, 0.2);
+            border-color: rgba(147, 51, 234, 0.5);
+        }
+
+        .hamburger span {
+            width: 20px;
+            height: 2px;
+            background: #c084fc;
+            margin: 2px 0;
+            transition: 0.3s ease;
+            border-radius: 2px;
+            transform-origin: center;
+            display: block;
+            position: absolute;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 12px;
+        }
+
+        .hamburger span:nth-child(2) {
+            top: 18px;
+        }
+
+        .hamburger span:nth-child(3) {
+            top: 24px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 18px;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 18px;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            header {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 1.75rem;
+            }
+
+            main {
+                padding: 15px;
+            }
+
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-item {
+                padding: 15px;
+            }
+
+            .dashboard-item h2 {
+                font-size: 1.3rem;
+            }
+
+            .tor-login-container,
+            .search-container {
+                padding: 15px;
+            }
+
+            .tor-login-container h2 {
+                font-size: 1.3rem;
+            }
+
+            .search-container input[type="text"],
+            .tor-login-container input[type="text"] {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .search-container button,
+            .tor-login-container button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="moving-grid"></div>
+    <div class="cyber-bg"></div>
+
+    <header>
+        <h1>OSINTKit Dashboard</h1>
+        <p>Open Source Intelligence Platform</p>
+    </header>
+
+    <div class="hamburger" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="mobile-menu">
+        <nav>
+            <!-- Add your mobile menu items here -->
+            <a href="#">Dashboard</a>
+            <a href="#">Tools</a>
+            <a href="#">Settings</a>
+            <a href="#">Logout</a>
+        </nav>
+    </div>
+
+    <main>
+        <div class="dashboard-container">
+            <div class="dashboard-item">
+                <h2>Data Breach Search</h2>
+                <p>Quickly search for leaked credentials across multiple data breaches.</p>
+            </div>
+            <div class="dashboard-item">
+                <h2>Social Media Analysis</h2>
+                <p>Analyze social media profiles to gather intelligence and connections.</p>
+            </div>
+            <div class="dashboard-item">
+                <h2>Domain Information</h2>
+                <p>Gather comprehensive information about any domain, including registration details and hosting information.</p>
+            </div>
+            <div class="dashboard-item">
+                <h2>IP Address Lookup</h2>
+                <p>Trace the geographic location and ownership of any IP address.</p>
+            </div>
+        </div>
+
+        <div class="tor-login-container">
+            <h2>Login to TOR Network</h2>
+            <input type="text" placeholder="Enter TOR Username">
+            <input type="text" placeholder="Enter TOR Password">
+            <button>
+                <span class="loading-spinner"></span>
+                Login
+            </button>
+        </div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Enter search term">
+            <button>
+                <span class="loading-spinner"></span>
+                Search
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2024 OSINTKit. All rights reserved.
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target) && mobileMenu.classList.contains('active')) {
+                toggleMobileMenu();
+            }
+        });
+
+        // Prevent menu from closing when clicking inside it
+        document.querySelector('.mobile-menu').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
