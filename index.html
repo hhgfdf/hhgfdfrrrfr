@@ -380,6 +380,15 @@
                 word-break: break-all;
                 overflow-wrap: break-word;
             }
+            
+            .legal-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .legal-link {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -414,6 +423,15 @@
         
         <div class="security-notice">
             <i class="fas fa-shield-alt"></i> This system uses military-grade encryption. All activities are monitored and logged for security purposes.
+            
+            <div class="legal-links">
+                <a href="tos.html" class="legal-link">
+                    <i class="fas fa-file-contract"></i> Terms of Service
+                </a>
+                <a href="privacy.html" class="legal-link">
+                    <i class="fas fa-user-shield"></i> Privacy Policy
+                </a>
+            </div>
         </div>
     </div>
 
