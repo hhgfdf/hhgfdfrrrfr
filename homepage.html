@@ -195,33 +195,25 @@
             display: inline-block;
             text-decoration: none;
             cursor: pointer;
-            pointer-events: auto;
         }
 
         .cta-buttons {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 10;
+            gap: 20px;
         }
 
         .cta-primary, .cta-secondary {
-            display: inline-flex;
+            display: inline-block;
             padding: 15px 30px;
             border-radius: 10px;
             font-size: 1.1rem;
             font-weight: bold;
             text-decoration: none;
             transition: all 0.3s ease;
+            display: flex;
             align-items: center;
             gap: 10px;
-            white-space: nowrap;
-            cursor: pointer;
-            pointer-events: auto;
-            position: relative;
-            z-index: 10;
         }
 
         .cta-primary {
@@ -662,7 +654,6 @@
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
-                gap: 15px;
             }
 
             .stats-grid {
@@ -718,8 +709,8 @@
     </style>
 </head>
 <body>
-    <div class="moving-grid" style="pointer-events: none;"></div>
-    <div class="cyber-bg" style="pointer-events: none;"></div>
+    <div class="moving-grid"></div>
+    <div class="cyber-bg"></div>
     
     <header class="header">
         <div class="logo">OSINTKit</div>
@@ -741,11 +732,11 @@
             <div class="hero-content">
                 <h1 class="hero-title">OSINTKit</h1>
                 <p>Harness the power of comprehensive data analysis with our cutting-edge OSINT tools and extensive database network.</p>
-                <div class="cta-buttons">
-                    <a href="index.html" class="cta-primary" style="z-index: 100; position: relative;">
+                <div class="hero-buttons">
+                    <a href="index.html" class="cta-primary">
                         <i class="fas fa-rocket"></i> Get Started
                     </a>
-                    <a href="#features" class="cta-secondary" style="z-index: 100; position: relative;">
+                    <a href="#features" class="cta-secondary">
                         <i class="fas fa-info-circle"></i> Learn More
                     </a>
                 </div>
@@ -881,11 +872,9 @@
             <div class="cta-content">
                 <h2>Ready to Start Your Intelligence Operations?</h2>
                 <p>Join thousands of professionals who trust OSINTKit for their intelligence gathering needs.</p>
-                <div style="display: flex; justify-content: center;">
-                    <a href="index.html" class="cta-primary" style="z-index: 100; position: relative;">
-                        <i class="fas fa-sign-in-alt"></i> Access Platform
-                    </a>
-                </div>
+                <a href="index.html" class="cta-button">
+                    <i class="fas fa-sign-in-alt"></i> Access Platform
+                </a>
             </div>
         </section>
     </main>
@@ -899,24 +888,17 @@
             <div class="footer-section">
                 <h4>Platform</h4>
                 <ul>
-                    <li><a href="index.html" style="z-index: 100; position: relative;"><i class="fas fa-search"></i> Search Tools</a></li>
-                    <li><a href="index.html" style="z-index: 100; position: relative;"><i class="fas fa-chart-line"></i> Analytics</a></li>
-                    <li><a href="index.html" style="z-index: 100; position: relative;"><i class="fas fa-file-alt"></i> Reports</a></li>
+                    <li><a href="#"><i class="fas fa-search"></i> Search Tools</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> Reports</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="index.html" style="z-index: 100; position: relative;"><i class="fas fa-question-circle"></i> Help Center</a></li>
-                    <li><a href="index.html" style="z-index: 100; position: relative;"><i class="fas fa-comments"></i> Contact Us</a></li>
-                    <li><a href="index.html" style="z-index: 100; position: relative;"><i class="fas fa-book"></i> Documentation</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="tos.html" style="z-index: 100; position: relative;"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
-                    <li><a href="privacy.html" style="z-index: 100; position: relative;"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                    <li><a href="#"><i class="fas fa-comments"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
                 </ul>
             </div>
         </div>
