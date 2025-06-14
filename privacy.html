@@ -155,54 +155,6 @@
             transform: translateY(-2px);
         }
 
-        .nav-menu.mobile {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 280px;
-            height: 100vh;
-            background: rgba(30, 30, 30, 0.98);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(147, 51, 234, 0.3);
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding: 80px 20px 20px;
-            gap: 20px;
-            transition: left 0.3s ease;
-            z-index: 999;
-        }
-
-        .nav-menu.mobile.active {
-            left: 0;
-        }
-
-        .nav-menu.mobile .nav-item {
-            width: 100%;
-            padding: 15px 20px;
-            border-radius: 10px;
-            border: 1px solid rgba(147, 51, 234, 0.2);
-            text-align: center;
-        }
-
-        .mobile-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 998;
-        }
-
-        .mobile-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
         .main-content {
             padding: 40px;
             max-width: 1000px;
@@ -291,17 +243,43 @@
             box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
         }
 
+        /* Mobile Styles */
         @media (max-width: 768px) {
             .header {
                 padding: 15px 20px;
             }
 
-            .hamburger {
-                display: flex;
+            .logo {
+                font-size: 1.5rem;
             }
 
-            .nav-menu:not(.mobile) {
-                display: none;
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 300px;
+                height: 100vh;
+                background: rgba(20, 20, 20, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                transition: right 0.3s ease;
+                border-left: 1px solid rgba(147, 51, 234, 0.3);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-item {
+                margin: 10px 0;
+                padding: 15px 20px;
+                border-radius: 10px;
+                font-size: 1.1rem;
+            }
+
+            .hamburger {
+                display: flex;
             }
 
             .main-content {
@@ -352,7 +330,7 @@
                 font-size: 0.9rem;
             }
 
-            .nav-menu.mobile {
+            .nav-menu {
                 width: 250px;
             }
         }
@@ -361,23 +339,18 @@
 <body>
     <div class="moving-grid"></div>
     <div class="cyber-bg"></div>
-    <div class="mobile-overlay" id="mobileOverlay"></div>
     
     <header class="header">
         <div class="logo">OSINTKit</div>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
         <nav class="nav-menu">
             <a href="homepage.html" class="nav-item">Home</a>
             <a href="index.html" class="nav-item">Login</a>
         </nav>
-        <nav class="nav-menu mobile" id="mobileMenu">
-            <a href="homepage.html" class="nav-item">Home</a>
-            <a href="index.html" class="nav-item">Login</a>
-        </nav>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
 
     <main class="main-content">
@@ -494,28 +467,23 @@
     </main>
 
     <script>
-        function toggleMobileMenu() {
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
-            const mobileOverlay = document.getElementById('mobileOverlay');
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
             
             hamburger.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-            mobileOverlay.classList.toggle('active');
+            navMenu.classList.toggle('active');
         }
 
-        // Add event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburger = document.getElementById('hamburger');
-            const mobileOverlay = document.getElementById('mobileOverlay');
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
             
-            hamburger.addEventListener('click', toggleMobileMenu);
-            mobileOverlay.addEventListener('click', toggleMobileMenu);
-        });
-
-        // Close mobile menu when clicking on a nav item
-        document.querySelectorAll('.nav-menu.mobile .nav-item').forEach(item => {
-            item.addEventListener('click', toggleMobileMenu);
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
         });
     </script>
 </body>
