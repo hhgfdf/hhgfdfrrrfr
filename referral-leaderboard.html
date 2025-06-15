@@ -353,8 +353,8 @@
             background: rgba(147, 51, 234, 0.2);
             padding: 20px;
             display: grid;
-            grid-template-columns: 80px 1fr 120px 150px;
-            gap: 20px;
+            grid-template-columns: 60px 1fr 100px 120px;
+            gap: 15px;
             align-items: center;
             font-weight: bold;
             color: #e4e4e7;
@@ -362,10 +362,10 @@
         }
 
         .leaderboard-row {
-            padding: 20px;
+            padding: 15px 20px;
             display: grid;
-            grid-template-columns: 80px 1fr 120px 150px;
-            gap: 20px;
+            grid-template-columns: 60px 1fr 100px 120px;
+            gap: 15px;
             align-items: center;
             border-bottom: 1px solid rgba(147, 51, 234, 0.1);
             transition: all 0.3s ease;
@@ -380,28 +380,44 @@
         }
 
         .rank {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
             text-align: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            background: rgba(147, 51, 234, 0.1);
+            border: 2px solid rgba(147, 51, 234, 0.3);
         }
 
         .rank.first {
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            color: #000;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border: 2px solid #ffd700;
+            text-shadow: none;
         }
 
         .rank.second {
-            color: #c0c0c0;
+            color: #000;
+            background: linear-gradient(45deg, #c0c0c0, #e8e8e8);
+            border: 2px solid #c0c0c0;
         }
 
         .rank.third {
-            color: #cd7f32;
+            color: #fff;
+            background: linear-gradient(45deg, #cd7f32, #e49b5a);
+            border: 2px solid #cd7f32;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            min-width: 0;
         }
 
         .user-avatar-small {
@@ -415,6 +431,7 @@
             font-weight: bold;
             color: white;
             font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
         .user-avatar-small.first {
@@ -425,11 +442,16 @@
 
         .user-name {
             color: #e4e4e7;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.95rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
         }
 
         .referral-count {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #c084fc;
             text-align: center;
@@ -437,14 +459,15 @@
 
         .join-date {
             color: #a1a1aa;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-align: center;
         }
 
         .crown-icon {
             color: #ffd700;
-            margin-left: 10px;
-            animation: goldGlow 1s infinite;
+            margin-left: 8px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
         /* Mobile Styles */
@@ -483,14 +506,14 @@
             }
 
             .leaderboard-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .table-header,
             .leaderboard-row {
-                grid-template-columns: 60px 1fr 80px;
-                gap: 15px;
-                padding: 15px;
+                grid-template-columns: 50px 1fr 80px;
+                gap: 10px;
+                padding: 12px 15px;
             }
 
             .join-date {
@@ -517,11 +540,37 @@
             .time-number {
                 font-size: 1.2rem;
             }
+
+            .rank {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .user-avatar-small {
+                width: 35px;
+                height: 35px;
+                font-size: 0.8rem;
+            }
+
+            .user-name {
+                font-size: 0.85rem;
+                max-width: 120px;
+            }
+
+            .referral-count {
+                font-size: 1rem;
+            }
+
+            .crown-icon {
+                font-size: 0.8rem;
+                margin-left: 4px;
+            }
         }
 
         @media (max-width: 480px) {
             .leaderboard-title {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
 
             .logo {
@@ -535,13 +584,23 @@
             }
 
             .user-info {
-                gap: 10px;
+                gap: 8px;
             }
 
-            .user-avatar-small {
-                width: 35px;
-                height: 35px;
+            .user-name {
+                max-width: 100px;
                 font-size: 0.8rem;
+            }
+
+            .referral-count {
+                font-size: 0.95rem;
+            }
+
+            .table-header,
+            .leaderboard-row {
+                grid-template-columns: 45px 1fr 70px;
+                gap: 8px;
+                padding: 10px 12px;
             }
         }
     </style>
@@ -624,7 +683,8 @@
                 <div class="rank first">1</div>
                 <div class="user-info">
                     <div class="user-avatar-small first">MH</div>
-                    <div class="user-name">Marcus_Hunter <i class="fas fa-crown crown-icon"></i></div>
+                    <div class="user-name">Marcus_Hunter</div>
+                    <i class="fas fa-crown crown-icon"></i>
                 </div>
                 <div class="referral-count">47</div>
                 <div class="join-date">Oct 2024</div>
